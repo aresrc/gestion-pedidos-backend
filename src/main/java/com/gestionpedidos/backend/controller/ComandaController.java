@@ -24,4 +24,9 @@ public class ComandaController {
     public Comanda obtenerPorCodigo(@PathVariable String codigo) {
         return comandaService.buscarPorId(codigo);
     }
+
+    @PostMapping
+    public Comanda registrarComanda(@RequestBody Comanda comanda) {
+        return comandaService.guardarComanda(comanda);
+    }
 }
