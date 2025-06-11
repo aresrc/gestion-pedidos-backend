@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import jakarta.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -28,12 +29,12 @@ public class MenuController {
     }
 
     @PostMapping
-    public Menu createMenu(@RequestBody Menu menu) {
+    public Menu createMenu(@Valid @RequestBody Menu menu) {
         return menuService.save(menu);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Menu> updateMenu(@PathVariable Long id, @RequestBody Menu menuDetails) {
+    public ResponseEntity<Menu> updateMenu(@PathVariable Long id, @Valid @RequestBody Menu menuDetails) {
         return menuService.findById(id).map(menu -> {
             menu.setNombre(menuDetails.getNombre());
             menu.setDescripcion(menuDetails.getDescripcion());
