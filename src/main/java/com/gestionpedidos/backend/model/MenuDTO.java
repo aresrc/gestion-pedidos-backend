@@ -1,33 +1,21 @@
 package com.gestionpedidos.backend.model;
 
-import jakarta.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
-@Entity
-public class Menu {
+public class MenuDTO {
 
-    @Id
     private String codigoMenu;
-
     private int idUsuario;
-
     private String categoria;
+    private List<String> platillos; // Solo los códigos de platillo
 
-    @ManyToMany
-    @JoinTable(
-            name = "Menu_Platillo",
-            joinColumns = @JoinColumn(name = "codigoMenu"),
-            inverseJoinColumns = @JoinColumn(name = "codigoPlatillo")
-    )
-    private Set<Platillo> platillos = new HashSet<>();
+    public MenuDTO() {}
 
-    public Menu() {}
-
-    public Menu(String codigoMenu, int idUsuario, String categoria) {
+    public MenuDTO(String codigoMenu, int idUsuario, String categoria, List<String> platillos) {
         this.codigoMenu = codigoMenu;
         this.idUsuario = idUsuario;
         this.categoria = categoria;
+        this.platillos = platillos;
     }
 
     // Getters y Setters
@@ -55,11 +43,11 @@ public class Menu {
         this.categoria = categoria;
     }
 
-    public Set<Platillo> getPlatillos() {
+    public List<String> getPlatillos() {
         return platillos;
     }
 
-    public void setPlatillos(Set<Platillo> platillos) {
+    public void setPlatillos(List<String> platillos) {
         this.platillos = platillos;
     }
 }
