@@ -22,7 +22,7 @@ class PlatilloServiceTest {
 
         when(repo.findById("P001")).thenReturn(Optional.of(platillo));
 
-        Platillo resultado = service.buscarPorId("P001");
+        Platillo resultado = service.buscarPorId("P001").orElse(null);
         assertNotNull(resultado);
         assertEquals("Pizza", resultado.getNombre());
     }
