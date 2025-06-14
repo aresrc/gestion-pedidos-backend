@@ -1,6 +1,9 @@
 package com.gestionpedidos.backend.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import java.util.Set;
 
 @Entity
@@ -9,11 +12,14 @@ public class Platillo {
     @Id
     private String codigoPlatillo;
 
+    @NotBlank(message = "El nombre es obligatorio")
     private String nombre;
 
     private String detalle;
 
-    private double precio;
+    @NotNull(message = "El precio es obligatorio")
+    @Positive(message = "El precio debe ser mayor a 0")
+    private Double precio;
 
     @ManyToMany(mappedBy = "platillos")
     private Set<Menu> menus;
@@ -52,11 +58,11 @@ public class Platillo {
         this.detalle = detalle;
     }
 
-    public double getPrecio() {
+    public Double getPrecio() {
         return precio;
     }
 
-    public void setPrecio(double precio) {
+    public void setPrecio(Double precio) {
         this.precio = precio;
     }
 
