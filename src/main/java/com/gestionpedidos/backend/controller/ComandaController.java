@@ -2,7 +2,7 @@ package com.gestionpedidos.backend.controller;
 
 import com.gestionpedidos.backend.model.Comanda;
 import com.gestionpedidos.backend.service.ComandaService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -10,10 +10,10 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/comandas")
 @CrossOrigin(origins = "*")
+@RequiredArgsConstructor
 public class ComandaController {
 
-    @Autowired
-    private ComandaService comandaService;
+    private final ComandaService comandaService;
 
     @GetMapping
     public List<Comanda> obtenerTodas() {
