@@ -3,7 +3,6 @@ package com.gestionpedidos.backend.service;
 import com.gestionpedidos.backend.model.Platillo;
 import com.gestionpedidos.backend.repository.PlatilloRepository;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
