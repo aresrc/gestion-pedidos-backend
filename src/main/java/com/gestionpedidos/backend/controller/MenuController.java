@@ -4,20 +4,18 @@ import com.gestionpedidos.backend.model.Menu;
 import com.gestionpedidos.backend.model.MenuDTO;
 import com.gestionpedidos.backend.model.Platillo;
 import com.gestionpedidos.backend.service.MenuService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/menus")
 public class MenuController {
 
     private final MenuService menuService;
-
-    public MenuController(MenuService menuService) {
-        this.menuService = menuService;
-    }
 
     // Obtener todos los menús
     @GetMapping

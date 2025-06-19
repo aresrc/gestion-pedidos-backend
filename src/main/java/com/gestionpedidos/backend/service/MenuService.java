@@ -5,7 +5,9 @@ import com.gestionpedidos.backend.model.MenuDTO;
 import com.gestionpedidos.backend.model.Platillo;
 import com.gestionpedidos.backend.repository.MenuRepository;
 import com.gestionpedidos.backend.repository.PlatilloRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -14,14 +16,12 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@RequiredArgsConstructor
 @Service
 public class MenuService {
 
-    @Autowired
-    private MenuRepository menuRepository;
-
-    @Autowired
-    private PlatilloRepository platilloRepository;
+    private final MenuRepository menuRepository;
+    private final PlatilloRepository platilloRepository;
 
     public List<Menu> findAll() {
         List<Menu> menus = menuRepository.findAll();
@@ -71,3 +71,4 @@ public class MenuService {
         return menuRepository.save(menu);
     }
 }
+
