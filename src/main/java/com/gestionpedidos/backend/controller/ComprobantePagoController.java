@@ -18,7 +18,7 @@ public class ComprobantePagoController {
     public List<ComprobantePagoDTO> filtrarPorUsuario(@PathVariable Integer idUsuario) {
         return comprobantePagoService.filtrarComprobantesPorUsuario(idUsuario);
     }
-
+    /*Test*/
     @GetMapping("/{codigoComprobante}")
     public ComprobantePagoDTO obtenerPorCodigo(@PathVariable String codigoComprobante) {
         return comprobantePagoService.obtenerComprobantePorCodigo(codigoComprobante);
