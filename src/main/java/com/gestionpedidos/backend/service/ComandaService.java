@@ -27,4 +27,13 @@ public class ComandaService {
         }
         return comandaRepository.save(comanda);
     }
+
+    public Comanda cambiarEstado(String codigoComanda, Comanda.Estado nuevoEstado) {
+        Comanda comanda = buscarPorId(codigoComanda);
+        if (comanda != null) {
+            comanda.setEstado(nuevoEstado);
+            return comandaRepository.save(comanda);
+        }
+        throw new RuntimeException("Comanda no encontrada con código: " + codigoComanda);
+    }
 }
