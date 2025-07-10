@@ -6,93 +6,45 @@ import java.time.LocalTime;
 import java.util.HashSet;
 import java.util.Set;
 
+import jakarta.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.Set;
+
 @Entity
 @Table(name = "Comanda")
 public class Comanda {
-
     @Id
-    @Column(name = "codigoComanda")
-    private String codigoComanda;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_comanda")
+    private Integer idComanda;
 
-    @ManyToOne
-    @JoinColumn(name = "idUsuario")
-    private Usuario usuario;
+    @Column(name = "codigo", nullable = false, unique = true, length = 8)
+    private String codigo;
 
-    @Column(name = "numMesa")
-    private int numMesa;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "cliente_id", nullable = false)
+    private Usuario cliente;
 
-    @Column(name = "fechaPedido")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "mesero_id", nullable = false)
+    private Usuario mesero;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "mesa_id", nullable = false)
+    private Mesa mesa;
+
+    @Column(name = "fecha_pedido", nullable = false)
     private LocalDate fechaPedido;
 
-    @Column(name = "horaPedido")
+    @Column(name = "hora_pedido", nullable = false)
     private LocalTime horaPedido;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "estado")
-    private Estado estado;
+    @Column(name = "estado", nullable = false)
+    private String estado;
 
-    @ManyToMany(mappedBy = "comandas")
-    private Set<ComprobantePago> comprobantes = new HashSet<>();
-
-    public String getCodigoComanda() {
-        return codigoComanda;
-    }
+    @OneToMany(mappedBy = "comanda", cascade = CascadeType.ALL)
+    private Set<DetalleComanda> detalles;
 
     // Getters y Setters
-
-    public void setCodigoComanda(String codigoComanda) {
-        this.codigoComanda = codigoComanda;
-    }
-
-    public Usuario getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
-    }
-
-    public int getNumMesa() {
-        return numMesa;
-    }
-
-    public void setNumMesa(int numMesa) {
-        this.numMesa = numMesa;
-    }
-
-    public LocalDate getFechaPedido() {
-        return fechaPedido;
-    }
-
-    public void setFechaPedido(LocalDate fechaPedido) {
-        this.fechaPedido = fechaPedido;
-    }
-
-    public LocalTime getHoraPedido() {
-        return horaPedido;
-    }
-
-    public void setHoraPedido(LocalTime horaPedido) {
-        this.horaPedido = horaPedido;
-    }
-
-    public Estado getEstado() {
-        return estado;
-    }
-
-    public void setEstado(Estado estado) {
-        this.estado = estado;
-    }
-
-    public Set<ComprobantePago> getComprobantes() {
-        return comprobantes;
-    }
-
-    public void setComprobantes(Set<ComprobantePago> comprobantes) {
-        this.comprobantes = comprobantes;
-    }
-
-    public enum Estado {
-        Pendiente, En_preparación, Entregado, Cancelada
-    }
 }

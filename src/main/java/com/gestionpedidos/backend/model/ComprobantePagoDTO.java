@@ -6,70 +6,29 @@ import java.time.LocalTime;
 import java.util.List;
 
 public class ComprobantePagoDTO {
-    private String codigoComprobante;
-    private String nombreUsuario;
-    private LocalDate fecha;
-    private LocalTime hora;
+    private String codigo;
+    private Integer clienteId;
+    private LocalDate fechaPago;
+    private LocalTime horaPago;
     private BigDecimal montoTotal;
-    private List<String> codigosComanda;
+    private List<String> codigosComandas;
 
-    // Constructor, getters y setters
-    public ComprobantePagoDTO() {}
+    // Getters y Setters
+    public String getCodigo() { return codigo; }
+    public void setCodigo(String codigo) { this.codigo = codigo; }
 
-    public ComprobantePagoDTO(String codigoComprobante, String nombreUsuario, LocalDate fecha, LocalTime hora, BigDecimal montoTotal, List<String> codigosComanda) {
-        this.codigoComprobante = codigoComprobante;
-        this.nombreUsuario = nombreUsuario;
-        this.fecha = fecha;
-        this.hora = hora;
-        this.montoTotal = montoTotal;
-        this.codigosComanda = codigosComanda;
-    }
+    public Integer getClienteId() { return clienteId; }
+    public void setClienteId(Integer clienteId) { this.clienteId = clienteId; }
 
-    public String getCodigoComprobante() {
-        return codigoComprobante;
-    }
+    public LocalDate getFechaPago() { return fechaPago; }
+    public void setFechaPago(LocalDate fechaPago) { this.fechaPago = fechaPago; }
 
-    public void setCodigoComprobante(String codigoComprobante) {
-        this.codigoComprobante = codigoComprobante;
-    }
+    public LocalTime getHoraPago() { return horaPago; }
+    public void setHoraPago(LocalTime horaPago) { this.horaPago = horaPago; }
 
-    public String getNombreUsuario() {
-        return nombreUsuario;
-    }
+    public BigDecimal getMontoTotal() { return montoTotal; }
+    public void setMontoTotal(BigDecimal montoTotal) { this.montoTotal = montoTotal; }
 
-    public void setNombreUsuario(String nombreUsuario) {
-        this.nombreUsuario = nombreUsuario;
-    }
-
-    public LocalDate getFecha() {
-        return fecha;
-    }
-
-    public void setFecha(LocalDate fecha) {
-        this.fecha = fecha;
-    }
-
-    public LocalTime getHora() {
-        return hora;
-    }
-
-    public void setHora(LocalTime hora) {
-        this.hora = hora;
-    }
-
-    public BigDecimal getMontoTotal() {
-        return montoTotal;
-    }
-
-    public void setMontoTotal(BigDecimal montoTotal) {
-        this.montoTotal = montoTotal;
-    }
-
-    public List<String> getCodigosComanda() {
-        return codigosComanda;
-    }
-
-    public void setCodigosComanda(List<String> codigosComanda) {
-        this.codigosComanda = codigosComanda;
-    }
+    public List<String> getCodigosComandas() { return codigosComandas; }
+    public void setCodigosComandas(List<String> codigosComandas) { this.codigosComandas = codigosComandas; }
 }

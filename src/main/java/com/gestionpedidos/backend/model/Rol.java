@@ -1,7 +1,5 @@
 package com.gestionpedidos.backend.model;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -10,15 +8,14 @@ public class Rol {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idRol")
+    @Column(name = "id_rol")
     private Integer idRol;
 
-    @Column(name = "nombreRol")
+    @Column(name = "nombre_rol", nullable = false, unique = true)
     private String nombreRol;
 
     @ManyToMany(mappedBy = "roles")
-    @JsonIgnore
-    private Set<Usuario> usuarios = new HashSet<>();
+    private Set<Usuario> usuarios;
 
     // Getters y Setters
     public Integer getIdRol() { return idRol; }

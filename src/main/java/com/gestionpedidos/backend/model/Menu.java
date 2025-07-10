@@ -4,62 +4,43 @@ import jakarta.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
+import jakarta.persistence.*;
+import java.time.LocalTime;
+import java.util.Set;
+
 @Entity
+@Table(name = "Menu")
 public class Menu {
-
     @Id
-    private String codigoMenu;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_menu")
+    private Integer idMenu;
 
-    private int idUsuario;
+    @Column(name = "nombre_menu", nullable = false, unique = true)
+    private String nombreMenu;
 
-    private String categoria;
+    @Column(name = "hora_inicio", nullable = false)
+    private LocalTime horaInicio;
 
-    @ManyToMany
-    @JoinTable(
-            name = "Menu_Platillo",
-            joinColumns = @JoinColumn(name = "codigoMenu"),
-            inverseJoinColumns = @JoinColumn(name = "codigoPlatillo")
-    )
-    private Set<Platillo> platillos = new HashSet<>();
+    @Column(name = "hora_fin", nullable = false)
+    private LocalTime horaFin;
 
-    public Menu() {}
-
-    public Menu(String codigoMenu, int idUsuario, String categoria) {
-        this.codigoMenu = codigoMenu;
-        this.idUsuario = idUsuario;
-        this.categoria = categoria;
-    }
+    @OneToMany(mappedBy = "menu", cascade = CascadeType.ALL)
+    private Set<MenuPlatillo> platillos;
 
     // Getters y Setters
-    public String getCodigoMenu() {
-        return codigoMenu;
-    }
+    public Integer getIdMenu() { return idMenu; }
+    public void setIdMenu(Integer idMenu) { this.idMenu = idMenu; }
 
-    public void setCodigoMenu(String codigoMenu) {
-        this.codigoMenu = codigoMenu;
-    }
+    public String getNombreMenu() { return nombreMenu; }
+    public void setNombreMenu(String nombreMenu) { this.nombreMenu = nombreMenu; }
 
-    public int getIdUsuario() {
-        return idUsuario;
-    }
+    public LocalTime getHoraInicio() { return horaInicio; }
+    public void setHoraInicio(LocalTime horaInicio) { this.horaInicio = horaInicio; }
 
-    public void setIdUsuario(int idUsuario) {
-        this.idUsuario = idUsuario;
-    }
+    public LocalTime getHoraFin() { return horaFin; }
+    public void setHoraFin(LocalTime horaFin) { this.horaFin = horaFin; }
 
-    public String getCategoria() {
-        return categoria;
-    }
-
-    public void setCategoria(String categoria) {
-        this.categoria = categoria;
-    }
-
-    public Set<Platillo> getPlatillos() {
-        return platillos;
-    }
-
-    public void setPlatillos(Set<Platillo> platillos) {
-        this.platillos = platillos;
-    }
+    public Set<MenuPlatillo> getPlatillos() { return platillos; }
+    public void setPlatillos(Set<MenuPlatillo> platillos) { this.platillos = platillos; }
 }

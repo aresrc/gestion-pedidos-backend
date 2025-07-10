@@ -6,71 +6,56 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import java.util.Set;
 
+import jakarta.persistence.*;
+import java.math.BigDecimal;
+import java.util.Set;
+
 @Entity
+@Table(name = "Platillo")
 public class Platillo {
-
     @Id
-    private String codigoPlatillo;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_platillo")
+    private Integer idPlatillo;
 
-    @NotBlank(message = "El nombre es obligatorio")
+    @Column(name = "codigo", nullable = false, unique = true, length = 8)
+    private String codigo;
+
+    @Column(name = "nombre", nullable = false)
     private String nombre;
 
-    private String detalle;
+    @Column(name = "descripcion")
+    private String descripcion;
 
-    @NotNull(message = "El precio es obligatorio")
-    @Positive(message = "El precio debe ser mayor a 0")
-    private Double precio;
+    @Column(name = "precio_unitario", nullable = false)
+    private BigDecimal precioUnitario;
 
-    @ManyToMany(mappedBy = "platillos")
-    private Set<Menu> menus;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_categoria", nullable = false)
+    private Categoria categoria;
 
-    public Platillo() {}
-
-    public Platillo(String codigoPlatillo, String nombre, String detalle, double precio) {
-        this.codigoPlatillo = codigoPlatillo;
-        this.nombre = nombre;
-        this.detalle = detalle;
-        this.precio = precio;
-    }
+    @OneToMany(mappedBy = "platillo", cascade = CascadeType.ALL)
+    private Set<PlatilloIngrediente> ingredientes;
 
     // Getters y Setters
-    public String getCodigoPlatillo() {
-        return codigoPlatillo;
-    }
+    public Integer getIdPlatillo() { return idPlatillo; }
+    public void setIdPlatillo(Integer idPlatillo) { this.idPlatillo = idPlatillo; }
 
-    public void setCodigoPlatillo(String codigoPlatillo) {
-        this.codigoPlatillo = codigoPlatillo;
-    }
+    public String getCodigo() { return codigo; }
+    public void setCodigo(String codigo) { this.codigo = codigo; }
 
-    public String getNombre() {
-        return nombre;
-    }
+    public String getNombre() { return nombre; }
+    public void setNombre(String nombre) { this.nombre = nombre; }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
+    public String getDescripcion() { return descripcion; }
+    public void setDescripcion(String descripcion) { this.descripcion = descripcion; }
 
-    public String getDetalle() {
-        return detalle;
-    }
+    public BigDecimal getPrecioUnitario() { return precioUnitario; }
+    public void setPrecioUnitario(BigDecimal precioUnitario) { this.precioUnitario = precioUnitario; }
 
-    public void setDetalle(String detalle) {
-        this.detalle = detalle;
-    }
+    public Categoria getCategoria() { return categoria; }
+    public void setCategoria(Categoria categoria) { this.categoria = categoria; }
 
-    public Double getPrecio() {
-        return precio;
-    }
-
-    public void setPrecio(Double precio) {
-        this.precio = precio;
-    }
-
-    public Set<Menu> getMenus() {
-        return menus;
-    }
-
-    public void setMenus(Set<Menu> menus) {
-        this.menus = menus;
-    }
+    public Set<PlatilloIngrediente> getIngredientes() { return ingredientes; }
+    public void setIngredientes(Set<PlatilloIngrediente> ingredientes) { this.ingredientes = ingredientes; }
 }

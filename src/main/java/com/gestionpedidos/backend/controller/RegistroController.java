@@ -31,13 +31,13 @@ public class RegistroController {
     public ResponseEntity<?> registrarUsuario(@RequestBody RegistroRequest request) {
 
         // Validar que el nombre no esté repetido
-        if (usuarioRepository.findByNombre(request.getNombre()).isPresent()) {
-            return ResponseEntity.badRequest().body(Map.of("message", "El nombre de usuario ya existe."));
+        if (usuarioRepository.findByCorreo(request.getCorreo()).isPresent()) {
+            return ResponseEntity.badRequest().body(Map.of("message", "El correo ya esta registrado."));
         }
 
         Usuario nuevoUsuario = new Usuario();
-        nuevoUsuario.setNombre(request.getNombre());
-        nuevoUsuario.setContraseña(encoder.encode(request.getContrasena()));
+        nuevoUsuario.setCorreo(request.getCorreo());
+        nuevoUsuario.setContrasena(encoder.encode(request.getContrasena()));
 
         // Asignar roles
         Set<Rol> rolesAsignados = new HashSet<>();

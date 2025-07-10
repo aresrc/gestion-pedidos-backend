@@ -7,67 +7,76 @@ import java.time.LocalTime;
 import java.util.HashSet;
 import java.util.Set;
 
+import jakarta.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.Set;
+
 @Entity
-@Table(name = "ComprobantePago")
+@Table(name = "Comprobante_Pago")
 public class ComprobantePago {
-
     @Id
-    @Column(name = "codigoComprobante")
-    private String codigoComprobante;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_comprobante")
+    private Integer idComprobante;
 
-    @ManyToOne
-    @JoinColumn(name = "idUsuario")
-    private Usuario usuario;
+    @Column(name = "codigo", nullable = false, unique = true, length = 8)
+    private String codigo;
 
-    @Column(name = "fecha")
-    private LocalDate fecha;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "cliente_id", nullable = false)
+    private Usuario cliente;
 
-    @Column(name = "hora")
-    private LocalTime hora;
+    @Column(name = "fecha_pago", nullable = false)
+    private LocalDate fechaPago;
 
-    @Column(name = "montoTotal")
+    @Column(name = "hora_pago", nullable = false)
+    private LocalTime horaPago;
+
+    @Column(name = "monto_total", nullable = false)
     private BigDecimal montoTotal;
 
-    @ManyToMany
-    @JoinTable(
-            name = "Comprobante_Comanda",
-            joinColumns = @JoinColumn(name = "codigoComprobante"),
-            inverseJoinColumns = @JoinColumn(name = "codigoComanda")
-    )
-    private Set<Comanda> comandas = new HashSet<>();
+    @OneToMany(mappedBy = "comprobantePago", cascade = CascadeType.ALL)
+    private Set<ComprobanteComanda> comandas;
 
-    // Getters y Setters
-
-    public String getCodigoComprobante() {
-        return codigoComprobante;
+    public Integer getIdComprobante() {
+        return idComprobante;
     }
 
-    public void setCodigoComprobante(String codigoComprobante) {
-        this.codigoComprobante = codigoComprobante;
+    public void setIdComprobante(Integer idComprobante) {
+        this.idComprobante = idComprobante;
     }
 
-    public Usuario getUsuario() {
-        return usuario;
+    public String getCodigo() {
+        return codigo;
     }
 
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
     }
 
-    public LocalDate getFecha() {
-        return fecha;
+    public Usuario getCliente() {
+        return cliente;
     }
 
-    public void setFecha(LocalDate fecha) {
-        this.fecha = fecha;
+    public void setCliente(Usuario cliente) {
+        this.cliente = cliente;
     }
 
-    public LocalTime getHora() {
-        return hora;
+    public LocalDate getFechaPago() {
+        return fechaPago;
     }
 
-    public void setHora(LocalTime hora) {
-        this.hora = hora;
+    public void setFechaPago(LocalDate fechaPago) {
+        this.fechaPago = fechaPago;
+    }
+
+    public LocalTime getHoraPago() {
+        return horaPago;
+    }
+
+    public void setHoraPago(LocalTime horaPago) {
+        this.horaPago = horaPago;
     }
 
     public BigDecimal getMontoTotal() {
@@ -78,11 +87,11 @@ public class ComprobantePago {
         this.montoTotal = montoTotal;
     }
 
-    public Set<Comanda> getComandas() {
+    public Set<ComprobanteComanda> getComandas() {
         return comandas;
     }
 
-    public void setComandas(Set<Comanda> comandas) {
+    public void setComandas(Set<ComprobanteComanda> comandas) {
         this.comandas = comandas;
     }
 }

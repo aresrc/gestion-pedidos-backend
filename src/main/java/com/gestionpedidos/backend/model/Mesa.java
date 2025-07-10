@@ -2,43 +2,35 @@ package com.gestionpedidos.backend.model;
 
 import jakarta.persistence.*;
 
+import jakarta.persistence.*;
+
 @Entity
 @Table(name = "Mesa")
 public class Mesa {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)  // Indica autoincremento
-    @Column(name = "numMesa")
-    private int numMesa;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_mesa")
+    private Integer idMesa;
 
-    @Column(name = "estadoMesa")
-    private String estadoMesa;
+    @Column(name = "numero", nullable = false, unique = true)
+    private Integer numero;
 
-    @Column(name = "cupos")
-    private int cupos;
+    @Column(name = "estado", nullable = false)
+    private String estado;
+
+    @Column(name = "capacidad", nullable = false)
+    private Integer capacidad;
 
     // Getters y Setters
-    public int getNumMesa() {
-        return numMesa;
-    }
+    public Integer getIdMesa() { return idMesa; }
+    public void setIdMesa(Integer idMesa) { this.idMesa = idMesa; }
 
-    public void setNumMesa(int numMesa) {
-        this.numMesa = numMesa;
-    }
+    public Integer getNumero() { return numero; }
+    public void setNumero(Integer numero) { this.numero = numero; }
 
-    public String getEstadoMesa() {
-        return estadoMesa;
-    }
+    public String getEstado() { return estado; }
+    public void setEstado(String estado) { this.estado = estado; }
 
-    public void setEstadoMesa(String estadoMesa) {
-        this.estadoMesa = estadoMesa;
-    }
-
-    public int getCupos() {
-        return cupos;
-    }
-
-    public void setCupos(int cupos) {
-        this.cupos = cupos;
-    }
+    public Integer getCapacidad() { return capacidad; }
+    public void setCapacidad(Integer capacidad) { this.capacidad = capacidad; }
 }
