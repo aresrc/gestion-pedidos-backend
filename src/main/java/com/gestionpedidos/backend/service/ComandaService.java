@@ -1,23 +1,30 @@
 package com.gestionpedidos.backend.service;
 
 import com.gestionpedidos.backend.model.Comanda;
+import com.gestionpedidos.backend.model.ComandaResponseDTO;
 import com.gestionpedidos.backend.repository.ComandaRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.ParameterMode;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ComandaService {
 
+    @Autowired
     private ComandaRepository comandaRepository;
 
-    public List<Comanda> listarTodas() {
-        return comandaRepository.findAll();
+    public List<ComandaResponseDTO> listarTodasComandasDTO() {
+        List<Comanda> comandas = comandaRepository.findAllWithRelations();
+        return comandas.stream()
+                .map(ComandaResponseDTO::new)
+                .collect(Collectors.toList());
     }
 
     @PersistenceContext

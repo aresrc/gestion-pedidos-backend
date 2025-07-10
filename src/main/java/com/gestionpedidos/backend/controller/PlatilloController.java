@@ -17,6 +17,12 @@ public class PlatilloController {
     @Autowired
     private PlatilloService platilloService;
 
+    @GetMapping
+    public ResponseEntity<Map<String, Object>> listarPlatillos() {
+        Map<String, Object> platillos = platilloService.listarTodosPlatillos();
+        return ResponseEntity.ok(platillos);
+    }
+
     @PostMapping
     public ResponseEntity<Void> insertar(@RequestBody Map<String, String> body) {
         platilloService.insertarPlatillo(

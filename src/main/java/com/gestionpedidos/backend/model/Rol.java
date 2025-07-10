@@ -1,6 +1,7 @@
 package com.gestionpedidos.backend.model;
 import jakarta.persistence.*;
 import java.util.Set;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 @Table(name = "Rol")
@@ -15,6 +16,7 @@ public class Rol {
     private String nombreRol;
 
     @ManyToMany(mappedBy = "roles")
+    @JsonBackReference // Rompe la recursividad hacia usuarios
     private Set<Usuario> usuarios;
 
     // Getters y Setters

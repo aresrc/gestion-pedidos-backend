@@ -1,6 +1,8 @@
 package com.gestionpedidos.backend.controller;
 
 import com.gestionpedidos.backend.model.Comanda;
+import com.gestionpedidos.backend.model.ComandaDTO;
+import com.gestionpedidos.backend.model.ComandaResponseDTO;
 import com.gestionpedidos.backend.service.ComandaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,8 +21,9 @@ public class ComandaController {
     private ComandaService comandaService;
 
     @GetMapping
-    public List<Comanda> obtenerTodas() {
-        return comandaService.listarTodas();
+    public ResponseEntity<List<ComandaResponseDTO>> listarComandas() {
+        List<ComandaResponseDTO> comandas = comandaService.listarTodasComandasDTO();
+        return ResponseEntity.ok(comandas);
     }
 
     @PostMapping
