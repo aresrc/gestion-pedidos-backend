@@ -1,5 +1,7 @@
 package com.gestionpedidos.backend.service;
 
+import com.gestionpedidos.backend.model.Comanda;
+import com.gestionpedidos.backend.repository.ComandaRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.ParameterMode;
@@ -11,6 +13,12 @@ import java.util.List;
 
 @Service
 public class ComandaService {
+
+    private ComandaRepository comandaRepository;
+
+    public List<Comanda> listarTodas() {
+        return comandaRepository.findAll();
+    }
 
     @PersistenceContext
     private EntityManager em;
