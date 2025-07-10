@@ -34,7 +34,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/h2-console/**").permitAll() // Permitir acceso a H2
                         .requestMatchers("/").permitAll() // Permitir acceso a la página de inicio
-                        .requestMatchers("/api/login").permitAll() // Permitir acceso a la API
+                        .requestMatchers("/api/**").permitAll() // Permitir acceso a la API
                         .anyRequest().authenticated() // Otras rutas requieren autenticación
                 )
                 .sessionManagement(s -> s

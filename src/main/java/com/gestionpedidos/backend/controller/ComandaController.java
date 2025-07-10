@@ -1,5 +1,6 @@
 package com.gestionpedidos.backend.controller;
 
+import com.gestionpedidos.backend.model.Comanda;
 import com.gestionpedidos.backend.service.ComandaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,16 +18,20 @@ public class ComandaController {
     @Autowired
     private ComandaService comandaService;
 
+    @GetMapping
+    public List<Comanda> obtenerTodas() {
+        return comandaService.listarTodas();
+    }
+
     @PostMapping
     public ResponseEntity<Void> insertar(@RequestBody Map<String, String> body) {
-        comandaService.insertarComanda(
-                body.get("codigo"),
+        comandaService.insertarComandaCSV(
                 Integer.valueOf(body.get("cliente_id")),
                 Integer.valueOf(body.get("mesero_id")),
                 Short.valueOf(body.get("mesa_id")),
-                LocalDate.parse(body.get("fecha_pedido")),
-                LocalTime.parse(body.get("hora_pedido")),
-                body.get("estado")
+                body.get("estado"),
+                body.get("ids_platillo"),
+                body.get("cantidades")
         );
         return ResponseEntity.ok().build();
     }

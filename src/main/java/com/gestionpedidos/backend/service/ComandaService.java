@@ -43,6 +43,24 @@ public class ComandaService {
                 .execute();
     }
 
+    public void insertarComandaCSV(Integer clienteId, Integer meseroId,
+                                Short mesaId, String estado, String ids_platillo, String cantidades) {
+        em.createStoredProcedureQuery("sp_insertar_comanda_csv")
+                .registerStoredProcedureParameter("p_cliente_id", Integer.class, ParameterMode.IN)
+                .registerStoredProcedureParameter("p_mesero_id", Integer.class, ParameterMode.IN)
+                .registerStoredProcedureParameter("p_mesa_id", Short.class, ParameterMode.IN)
+                .registerStoredProcedureParameter("p_estado", String.class, ParameterMode.IN)
+                .registerStoredProcedureParameter("p_ids_platillo", String.class, ParameterMode.IN)
+                .registerStoredProcedureParameter("p_cantidades", String.class, ParameterMode.IN)
+                .setParameter("p_cliente_id", clienteId)
+                .setParameter("p_mesero_id", meseroId)
+                .setParameter("p_mesa_id", mesaId)
+                .setParameter("p_estado", estado)
+                .setParameter("p_ids_platillo", ids_platillo)
+                .setParameter("p_cantidades", cantidades)
+                .execute();
+    }
+
     public void modificarComanda(Integer id, String estado) {
         em.createStoredProcedureQuery("sp_modificar_comanda")
                 .registerStoredProcedureParameter("p_id", Integer.class, ParameterMode.IN)
