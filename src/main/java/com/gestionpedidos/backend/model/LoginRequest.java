@@ -1,5 +1,7 @@
 package com.gestionpedidos.backend.model;
 
+import org.springframework.security.core.Authentication;
+
 public class LoginRequest {
     private String correo;       // Usuario
     private String contrasena;   // Contraseña sin cifrar

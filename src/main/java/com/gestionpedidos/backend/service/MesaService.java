@@ -11,38 +11,35 @@ import org.springframework.transaction.annotation.Transactional;
 public class MesaService {
 
     @PersistenceContext
-    private EntityManager entityManager;
+    private EntityManager em;
 
-    @Transactional
     public void insertarMesa(Short numero, String estado, Byte capacidad) {
-        StoredProcedureQuery query = entityManager.createStoredProcedureQuery("sp_insertar_mesa")
+        em.createStoredProcedureQuery("sp_insertar_mesa")
                 .registerStoredProcedureParameter("p_numero", Short.class, ParameterMode.IN)
                 .registerStoredProcedureParameter("p_estado", String.class, ParameterMode.IN)
                 .registerStoredProcedureParameter("p_capacidad", Byte.class, ParameterMode.IN)
                 .setParameter("p_numero", numero)
                 .setParameter("p_estado", estado)
-                .setParameter("p_capacidad", capacidad);
-        query.execute();
+                .setParameter("p_capacidad", capacidad)
+                .execute();
     }
 
-    @Transactional
     public void modificarMesa(Short id, String estado, Byte capacidad) {
-        StoredProcedureQuery query = entityManager.createStoredProcedureQuery("sp_modificar_mesa")
+        em.createStoredProcedureQuery("sp_modificar_mesa")
                 .registerStoredProcedureParameter("p_id", Short.class, ParameterMode.IN)
                 .registerStoredProcedureParameter("p_estado", String.class, ParameterMode.IN)
                 .registerStoredProcedureParameter("p_capacidad", Byte.class, ParameterMode.IN)
                 .setParameter("p_id", id)
                 .setParameter("p_estado", estado)
-                .setParameter("p_capacidad", capacidad);
-        query.execute();
+                .setParameter("p_capacidad", capacidad)
+                .execute();
     }
 
-    @Transactional
     public void eliminarMesa(Short id) {
-        StoredProcedureQuery query = entityManager.createStoredProcedureQuery("sp_eliminar_mesa")
+        em.createStoredProcedureQuery("sp_eliminar_mesa")
                 .registerStoredProcedureParameter("p_id", Short.class, ParameterMode.IN)
-                .setParameter("p_id", id);
-        query.execute();
+                .setParameter("p_id", id)
+                .execute();
     }
-
 }
+

@@ -46,5 +46,75 @@ public class Comanda {
     @OneToMany(mappedBy = "comanda", cascade = CascadeType.ALL)
     private Set<DetalleComanda> detalles;
 
-    // Getters y Setters
+    public Integer getIdComanda() {
+        return idComanda;
+    }
+
+    public void setIdComanda(Integer idComanda) {
+        this.idComanda = idComanda;
+    }
+
+    public Set<DetalleComanda> getDetalles() {
+        return detalles;
+    }
+
+    public void setDetalles(Set<DetalleComanda> detalles) {
+        this.detalles = detalles;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
+    public LocalTime getHoraPedido() {
+        return horaPedido;
+    }
+
+    public void setHoraPedido(LocalTime horaPedido) {
+        this.horaPedido = horaPedido;
+    }
+
+    public LocalDate getFechaPedido() {
+        return fechaPedido;
+    }
+
+    public void setFechaPedido(LocalDate fechaPedido) {
+        this.fechaPedido = fechaPedido;
+    }
+
+    public Mesa getMesa() {
+        return mesa;
+    }
+
+    public void setMesa(Mesa mesa) {
+        this.mesa = mesa;
+    }
+
+    public Usuario getMesero() {
+        return mesero;
+    }
+
+    public void setMesero(Usuario mesero) {
+        this.mesero = mesero;
+    }
+
+    public Usuario getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Usuario cliente) {
+        this.cliente = cliente;
+    }
+
+    public String getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
+    }
 }

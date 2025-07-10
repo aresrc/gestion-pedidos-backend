@@ -1,45 +1,45 @@
 package com.gestionpedidos.backend.controller;
 
-import com.gestionpedidos.backend.service.ComandaService;
+import com.gestionpedidos.backend.service.ComprobanteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.List;
 import java.util.Map;
 
+
 @RestController
-@RequestMapping("/api/comandas")
-public class ComandaController {
+@RequestMapping("/api/comprobantes")
+public class ComprobanteController {
 
     @Autowired
-    private ComandaService comandaService;
+    private ComprobanteService comprobanteService;
 
     @PostMapping
     public ResponseEntity<Void> insertar(@RequestBody Map<String, String> body) {
-        comandaService.insertarComanda(
+        comprobanteService.insertarComprobante(
                 body.get("codigo"),
                 Integer.valueOf(body.get("cliente_id")),
-                Integer.valueOf(body.get("mesero_id")),
-                Short.valueOf(body.get("mesa_id")),
-                LocalDate.parse(body.get("fecha_pedido")),
-                LocalTime.parse(body.get("hora_pedido")),
-                body.get("estado")
+                LocalDate.parse(body.get("fecha_pago")),
+                LocalTime.parse(body.get("hora_pago")),
+                new BigDecimal(body.get("monto_total"))
         );
         return ResponseEntity.ok().build();
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Void> modificar(@PathVariable Integer id, @RequestBody Map<String, String> body) {
-        comandaService.modificarComanda(id, body.get("estado"));
+        comprobanteService.modificarComprobante(id, new BigDecimal(body.get("monto_total")));
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminar(@PathVariable Integer id) {
-        comandaService.eliminarComanda(id);
+        comprobanteService.eliminarComprobante(id);
         return ResponseEntity.ok().build();
     }
 }
+

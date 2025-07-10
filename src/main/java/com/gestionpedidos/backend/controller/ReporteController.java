@@ -1,8 +1,7 @@
 package com.gestionpedidos.backend.controller;
 
-import com.gestionpedidos.backend.model.ReporteVentaDTO;
-import com.gestionpedidos.backend.model.ResumenReporteDTO;
-import com.gestionpedidos.backend.service.ReporteVentaService;
+
+import com.gestionpedidos.backend.service.ReporteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
@@ -12,28 +11,30 @@ import java.time.LocalDate;
 import java.util.List;
 
 @RestController
-@RequestMapping("/reportes") // Ruta base opcional
+@RequestMapping("/api/reportes")
 public class ReporteController {
 
     @Autowired
-    private ReporteVentaService reporteService;
+    private ReporteService reporteService;
 
-    @GetMapping("/ventas")
-    public ResponseEntity<List<ReporteVentaDTO>> obtenerReporteVentas(
-            @RequestParam("inicio") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate inicio,
-            @RequestParam("fin") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fin) {
-
-        List<ReporteVentaDTO> reporte = reporteService.generarReporteVenta(inicio, fin);
-        return ResponseEntity.ok(reporte);
+    @GetMapping("/ventas-platillo")
+    public ResponseEntity<List<Object[]>> ventasPorPlatillo(
+            @RequestParam("desde") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate desde,
+            @RequestParam("hasta") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate hasta) {
+        return ResponseEntity.ok(reporteService.reporteVentasPlatillo(desde, hasta));
     }
 
-    @GetMapping("/resumen")
-    public ResponseEntity<ResumenReporteDTO> obtenerResumenVentas(
-            @RequestParam("inicio") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate inicio,
-            @RequestParam("fin") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fin) {
-
-        ResumenReporteDTO resumen = reporteService.generarResumenVentas(inicio, fin);
-        return ResponseEntity.ok(resumen);
+    @GetMapping("/ventas-detalladas")
+    public ResponseEntity<List<Object[]>> ventasDetalladas(
+            @RequestParam("desde") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate desde,
+            @RequestParam("hasta") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate hasta) {
+        return ResponseEntity.ok(reporteService.reporteDetalladoVentas(desde, hasta));
     }
 
+    @GetMapping("/ventas-categoria")
+    public ResponseEntity<List<Object[]>> ventasPorCategoria(
+            @RequestParam("desde") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate desde,
+            @RequestParam("hasta") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate hasta) {
+        return ResponseEntity.ok(reporteService.reporteVentasPorCategoria(desde, hasta));
+    }
 }

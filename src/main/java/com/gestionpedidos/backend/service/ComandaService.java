@@ -1,39 +1,53 @@
 package com.gestionpedidos.backend.service;
 
-import com.gestionpedidos.backend.model.Comanda;
-import com.gestionpedidos.backend.repository.ComandaRepository;
-import lombok.RequiredArgsConstructor;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.ParameterMode;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
-@RequiredArgsConstructor
 @Service
 public class ComandaService {
 
-    private final ComandaRepository comandaRepository;
+    @PersistenceContext
+    private EntityManager em;
 
-    public List<Comanda> listarTodas() {
-        return comandaRepository.findAll();
+    public void insertarComanda(String codigo, Integer clienteId, Integer meseroId,
+                                Short mesaId, LocalDate fecha, LocalTime hora, String estado) {
+        em.createStoredProcedureQuery("sp_insertar_comanda")
+                .registerStoredProcedureParameter("p_codigo", String.class, ParameterMode.IN)
+                .registerStoredProcedureParameter("p_cliente", Integer.class, ParameterMode.IN)
+                .registerStoredProcedureParameter("p_mesero", Integer.class, ParameterMode.IN)
+                .registerStoredProcedureParameter("p_mesa", Short.class, ParameterMode.IN)
+                .registerStoredProcedureParameter("p_fecha", LocalDate.class, ParameterMode.IN)
+                .registerStoredProcedureParameter("p_hora", LocalTime.class, ParameterMode.IN)
+                .registerStoredProcedureParameter("p_estado", String.class, ParameterMode.IN)
+                .setParameter("p_codigo", codigo)
+                .setParameter("p_cliente", clienteId)
+                .setParameter("p_mesero", meseroId)
+                .setParameter("p_mesa", mesaId)
+                .setParameter("p_fecha", fecha)
+                .setParameter("p_hora", hora)
+                .setParameter("p_estado", estado)
+                .execute();
     }
 
-    public Comanda buscarPorId(String codigo) {
-        return comandaRepository.findById(codigo).orElse(null);
+    public void modificarComanda(Integer id, String estado) {
+        em.createStoredProcedureQuery("sp_modificar_comanda")
+                .registerStoredProcedureParameter("p_id", Integer.class, ParameterMode.IN)
+                .registerStoredProcedureParameter("p_estado", String.class, ParameterMode.IN)
+                .setParameter("p_id", id)
+                .setParameter("p_estado", estado)
+                .execute();
     }
 
-    public Comanda guardarComanda(Comanda comanda) {
-        if (comanda.getCodigoComanda() == null || comanda.getCodigoComanda().isEmpty()) {
-            throw new IllegalArgumentException("El código de la comanda no puede estar vacío");
-        }
-        return comandaRepository.save(comanda);
-    }
-
-    public Comanda cambiarEstado(String codigoComanda, Comanda.Estado nuevoEstado) {
-        Comanda comanda = buscarPorId(codigoComanda);
-        if (comanda != null) {
-            comanda.setEstado(nuevoEstado);
-            return comandaRepository.save(comanda);
-        }
-        throw new RuntimeException("Comanda no encontrada con código: " + codigoComanda);
+    public void eliminarComanda(Integer id) {
+        em.createStoredProcedureQuery("sp_eliminar_comanda")
+                .registerStoredProcedureParameter("p_id", Integer.class, ParameterMode.IN)
+                .setParameter("p_id", id)
+                .execute();
     }
 }

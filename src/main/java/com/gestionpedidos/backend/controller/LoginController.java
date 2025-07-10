@@ -1,5 +1,6 @@
 package com.gestionpedidos.backend.controller;
 
+import com.gestionpedidos.backend.config.JwtUtils;
 import com.gestionpedidos.backend.model.LoginRequest;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,26 +17,34 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
 public class LoginController {
 
     @Autowired
     private AuthenticationManager authManager;
 
+    @Autowired
+    private JwtUtils jwtUtils;
+
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginRequest req, HttpServletRequest request) {
-        UsernamePasswordAuthenticationToken token =
+    public ResponseEntity<?> login(@RequestBody LoginRequest req) {
+        UsernamePasswordAuthenticationToken authToken =
                 new UsernamePasswordAuthenticationToken(req.getCorreo(), req.getContrasena());
 
         try {
-            Authentication auth = authManager.authenticate(token);
-            SecurityContextHolder.getContext().setAuthentication(auth);
-            // La sesión se crea automáticamente y Spring envía JSESSIONID en la Set-Cookie
-            return ResponseEntity.ok(Map.of("message","Login exitoso"));
+            Authentication auth = authManager.authenticate(authToken);
+
+            // Generar JWT
+            String jwt = jwtUtils.generateToken(auth);
+
+            return ResponseEntity.ok(Map.of(
+                    "token", jwt,
+                    "type", "Bearer"
+            ));
         } catch (BadCredentialsException ex) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body(Map.of("error","Credenciales inválidas"));
         }
     }
 }
+
 

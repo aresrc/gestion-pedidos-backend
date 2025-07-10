@@ -9,32 +9,30 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class RolService {
+
     @PersistenceContext
     private EntityManager em;
 
-    @Transactional
-    public void createRole(String nombre) {
-        StoredProcedureQuery sp = em.createStoredProcedureQuery("sp_insertar_rol");
-        sp.registerStoredProcedureParameter("p_nombre", String.class, ParameterMode.IN);
-        sp.setParameter("p_nombre", nombre);
-        sp.execute();
+    public void insertarRol(String nombre) {
+        em.createStoredProcedureQuery("sp_insertar_rol")
+                .registerStoredProcedureParameter("p_nombre", String.class, ParameterMode.IN)
+                .setParameter("p_nombre", nombre)
+                .execute();
     }
 
-    @Transactional
-    public void updateRole(Integer id, String nombre) {
-        StoredProcedureQuery sp = em.createStoredProcedureQuery("sp_modificar_rol");
-        sp.registerStoredProcedureParameter("p_id", Integer.class, ParameterMode.IN);
-        sp.registerStoredProcedureParameter("p_nombre", String.class, ParameterMode.IN);
-        sp.setParameter("p_id", id);
-        sp.setParameter("p_nombre", nombre);
-        sp.execute();
+    public void modificarRol(Byte id, String nombre) {
+        em.createStoredProcedureQuery("sp_modificar_rol")
+                .registerStoredProcedureParameter("p_id", Byte.class, ParameterMode.IN)
+                .registerStoredProcedureParameter("p_nombre", String.class, ParameterMode.IN)
+                .setParameter("p_id", id)
+                .setParameter("p_nombre", nombre)
+                .execute();
     }
 
-    @Transactional
-    public void deleteRole(Integer id) {
-        StoredProcedureQuery sp = em.createStoredProcedureQuery("sp_eliminar_rol");
-        sp.registerStoredProcedureParameter("p_id", Integer.class, ParameterMode.IN);
-        sp.setParameter("p_id", id);
-        sp.execute();
+    public void eliminarRol(Byte id) {
+        em.createStoredProcedureQuery("sp_eliminar_rol")
+                .registerStoredProcedureParameter("p_id", Byte.class, ParameterMode.IN)
+                .setParameter("p_id", id)
+                .execute();
     }
 }
