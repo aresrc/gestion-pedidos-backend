@@ -5,6 +5,7 @@ import com.gestionpedidos.backend.model.ComandaDTO;
 import com.gestionpedidos.backend.model.ComandaResponseDTO;
 import com.gestionpedidos.backend.service.ComandaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,9 +41,9 @@ public class ComandaController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> modificar(@PathVariable Integer id, @RequestBody Map<String, String> body) {
+    public ResponseEntity<?> modificar(@PathVariable String id, @RequestBody Map<String, String> body) {
         comandaService.modificarComanda(id, body.get("estado"));
-        return ResponseEntity.ok().build();
+        return ResponseEntity.status(HttpStatus.CREATED).body(Map.of("message", "Estado cambiado exitosamente a " + body.get("estado")));
     }
 
     @DeleteMapping("/{id}")

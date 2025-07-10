@@ -1,17 +1,33 @@
 package com.gestionpedidos.backend.service;
 
+import com.gestionpedidos.backend.model.Mesa;
+import com.gestionpedidos.backend.repository.MesaRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.ParameterMode;
 import jakarta.persistence.StoredProcedureQuery;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class MesaService {
 
+    @Autowired
+    private MesaRepository mesaRepository;
+
+    public List<Mesa> getAllMesas() {
+        return mesaRepository.findAll();
+    }
+
+
     @PersistenceContext
     private EntityManager em;
+
+
 
     public void insertarMesa(Short numero, String estado, Byte capacidad) {
         em.createStoredProcedureQuery("sp_insertar_mesa")

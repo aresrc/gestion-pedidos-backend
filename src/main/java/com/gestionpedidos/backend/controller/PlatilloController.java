@@ -1,5 +1,7 @@
 package com.gestionpedidos.backend.controller;
 
+import com.gestionpedidos.backend.model.PlatilloDTO;
+import com.gestionpedidos.backend.repository.PlatilloRepository;
 import com.gestionpedidos.backend.service.PlatilloService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,7 +9,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @RestController
@@ -17,10 +21,20 @@ public class PlatilloController {
     @Autowired
     private PlatilloService platilloService;
 
+    @Autowired
+    private PlatilloRepository platilloRepository;
+
+
     @GetMapping
-    public ResponseEntity<Map<String, Object>> listarPlatillos() {
-        Map<String, Object> platillos = platilloService.listarTodosPlatillos();
-        return ResponseEntity.ok(platillos);
+    public List<PlatilloDTO> obtenerTodosLosPlatillos() {
+        return platilloRepository.findAll().stream()
+                .map(p -> new PlatilloDTO(
+                        p.getIdPlatillo(),
+                        p.getCodigo(),
+                        p.getNombre(),
+                        p.getDescripcion(),
+                        p.getPrecioUnitario().doubleValue()
+                )).collect(Collectors.toList());
     }
 
     @PostMapping

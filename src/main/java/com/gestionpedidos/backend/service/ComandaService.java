@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -68,11 +69,20 @@ public class ComandaService {
                 .execute();
     }
 
-    public void modificarComanda(Integer id, String estado) {
+    public void modificarComanda(String codigo, String estado) {
+        // Validar estados permitidos
+        List<String> estadosPermitidos = Arrays.asList(
+                "Pendiente", "Preparando", "Listo", "Servido", "Cancelada"
+        );
+
+        if (!estadosPermitidos.contains(estado)) {
+            throw new IllegalArgumentException("Estado inválido: " + estado);
+        }
+
         em.createStoredProcedureQuery("sp_modificar_comanda")
-                .registerStoredProcedureParameter("p_id", Integer.class, ParameterMode.IN)
+                .registerStoredProcedureParameter("p_codigo", String.class, ParameterMode.IN)
                 .registerStoredProcedureParameter("p_estado", String.class, ParameterMode.IN)
-                .setParameter("p_id", id)
+                .setParameter("p_codigo", codigo)
                 .setParameter("p_estado", estado)
                 .execute();
     }

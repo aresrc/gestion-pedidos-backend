@@ -1,6 +1,7 @@
 package com.gestionpedidos.backend.service;
 
 import com.gestionpedidos.backend.model.Platillo;
+import com.gestionpedidos.backend.model.PlatilloDTO;
 import com.gestionpedidos.backend.repository.PlatilloRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.ParameterMode;
@@ -8,20 +9,15 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.StoredProcedureQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
 public class PlatilloService {
-
-    @Autowired
-    private PlatilloRepository platilloRepository;
-
-    public List<Platillo> listarTodosPlatillos() {
-        return platilloRepository.findAll();
-    }
 
     @PersistenceContext
     private EntityManager em;

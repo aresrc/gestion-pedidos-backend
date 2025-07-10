@@ -1,16 +1,26 @@
 package com.gestionpedidos.backend.model;
 
 public class PlatilloDTO {
+    private Integer idPlatillo;
     private String codigoPlatillo;
     private String nombre;
     private String detalle;
     private double precio;
 
-    public PlatilloDTO(String codigoPlatillo, String nombre, String detalle, double precio) {
+    public PlatilloDTO(Integer idPlatillo, String codigoPlatillo, String nombre, String detalle, double precio) {
+        this.idPlatillo = idPlatillo;
         this.codigoPlatillo = codigoPlatillo;
         this.nombre = nombre;
         this.detalle = detalle;
         this.precio = precio;
+    }
+
+    public Integer getIdPlatillo() {
+        return idPlatillo;
+    }
+
+    public void setIdPlatillo(Integer idPlatillo) {
+        this.idPlatillo = idPlatillo;
     }
 
     public String getCodigoPlatillo() {
