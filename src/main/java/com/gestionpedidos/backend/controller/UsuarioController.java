@@ -16,11 +16,20 @@ public class UsuarioController {
 
     @PostMapping
     public ResponseEntity<?> create(@RequestBody RegistroRequest req) {
-        usuarioService.createUsuario(
-                req.getCorreo(), req.getContrasena(), req.getNombre(),
-                req.getApellidoPat(), req.getApellidoMat(), req.getDni()
-        );
-        return ResponseEntity.status(HttpStatus.CREATED).body(Map.of("message", "Usuario creado exitosamente"));
+        try {
+            usuarioService.createUsuario(
+                    req.getCorreo(), req.getContrasena(), req.getNombre(),
+                    req.getApellidoPat(), req.getApellidoMat(), req.getDni(), req.getId_rol()
+            );
+            return ResponseEntity.status(HttpStatus.CREATED).body(Map.of("message", "Usuario creado exitosamente"));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(Map.of("error", e.getMessage()));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("error", "Error al crear el usuario: " + e.getMessage()));
+        }
+
     }
 
     @PutMapping("/{id}")
